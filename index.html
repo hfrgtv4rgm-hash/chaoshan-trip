@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>潮汕四日高鐵之旅 · 12月24日–27日</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700;900&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/trip.css">
+</head>
+<body>
+
+<!-- ================= HERO（同 Hokkaido 版一樣結構） ================= -->
+<div class="hero">
+  <div class="eyebrow" id="heroEyebrow">Chaoshan Rail Trip</div>
+  <h1>汕頭 · 南澳島 · 潮州 · 揭陽<br>潮汕四日高鐵之旅</h1>
+  <p class="lead" id="heroLead"></p>
+  <div class="hero-photos" id="heroPhotos"></div>
+  <div class="hero-stats" id="heroStats"></div>
+</div>
+
+<nav class="main-tabs" id="mainTabs">
+  <button class="main-tab" data-view="overview">🏠 總覽</button>
+  <button class="main-tab" data-view="itin">📅 行程</button>
+  <button class="main-tab" data-view="map">🗺️ 地圖</button>
+  <button class="main-tab" data-view="hotels">🏨 酒店</button>
+  <button class="main-tab" data-view="transport">🚄 交通</button>
+  <button class="main-tab" data-view="food">🍜 美食</button>
+  <button class="main-tab" data-view="budget">💴 預算</button>
+  <button class="main-tab" data-view="tips">🧳 貼士 · 來源</button>
+</nav>
+
+<!-- ================= A. 總覽 ================= -->
+<div class="view" id="view-overview">
+<section>
+  <div class="section-head"><div class="tag">Plan Update</div><h2>出發安排 · 行程刪減</h2></div>
+  <div class="cmp-grid" id="planCompare"></div>
+</section>
+<section style="padding-top:0">
+  <div class="section-head"><div class="tag">Four Days</div><h2>四日行程一覽</h2></div>
+  <div class="ov-grid" id="ovDays"></div>
+</section>
+<section style="padding-top:0">
+  <div class="section-head"><div class="tag">Weather</div><h2>每日天氣預報</h2></div>
+  <div class="wx-grid" id="wxGrid"></div>
+  <div class="wx-note" id="wxNote"></div>
+</section>
+</div>
+
+<!-- ================= B. 行程 ================= -->
+<div class="view" id="view-itin">
+<section>
+  <div class="section-head"><div class="tag">Day by Day</div><h2>逐日行程</h2></div>
+  <div class="plan-bar"><div class="plan-switch" data-role="plan-switch"></div><span class="hint">切換出發方案，行程、地圖同預算會一齊更新</span></div>
+  <p style="font-size:12.5px; color:var(--ink-soft); margin-top:-8px; margin-bottom:12px;">
+    每格時間為 <b>開始–結束</b>，括號內為預留時長。車程顯示 <b>實際預估</b>（OSRM 路線 + 市區／泊車緩衝），細字為 OSRM 自由車流時間。
+    <b style="color:#2a6be0;">高德</b> = 開高德地圖導航（已用 WGS-84 座標）；<b>Apple</b> = Apple 地圖；<b style="color:var(--forest);">📍</b> = 喺本頁地圖睇位置。最右「已付」可自行剔，備註會存喺本機。
+  </p>
+  <div class="legend-row"><span><span class="vb ok">已核實</span> 有官方／平台來源</span><span><span class="vb est">估算</span> 冇公開實價或按經驗推算</span><span><span class="vb na">未公佈</span> 暫時查唔到／未開售</span></div>
+  <div class="day-tabs" id="dayTabs"></div>
+  <div id="dayPanels"></div>
+</section>
+</div>
+
+<!-- ================= C. 地圖 ================= -->
+<div class="view" id="view-map">
+<section>
+  <div class="section-head"><div class="tag">Interactive Map</div><h2>互動路線地圖</h2></div>
+  <div class="plan-bar"><div class="plan-switch" data-role="plan-switch"></div></div>
+  <div class="map-toolbar">
+    <div class="grp" id="mapDayBtns"></div>
+    <span class="sep"></span>
+    <div class="grp" id="mapLayerBtns"></div>
+  </div>
+  <div class="map-layout">
+    <div class="map-card">
+      <div id="routeMap"></div>
+      <div class="map-legend">
+        <div class="item">🛣 路線按實際道路由 OSRM 計算（需連網）；載入失敗會改為虛線直線</div>
+        <div class="item">📍 撳標記睇相、簡介、貼士同導航</div>
+        <div class="item">🚄 香港 ↔ 潮汕高鐵線為示意</div>
+      </div>
+    </div>
+    <div class="leg-panel" id="legPanel"></div>
+  </div>
+</section>
+</div>
+
+<!-- ================= D. 酒店 ================= -->
+<div class="view" id="view-hotels">
+<section>
+  <div class="section-head"><div class="tag">Hotels</div><h2>酒店比較與建議</h2></div>
+  <div class="note-box">⚠ 12 月下旬嘅實際房價要喺訂房平台入日期先睇到（攜程顯示「登錄看低價」），以下價錢係 <span class="vb est">估算</span> 範圍；評分、點評數、地址為 2026-11-24 搜集嘅 <span class="vb ok">已核實</span> 平台資料。取消政策視乎所揀房價方案。</div>
+  <div id="hotelList"></div>
+</section>
+</div>
+
+<!-- ================= E. 交通 ================= -->
+<div class="view" id="view-transport">
+<section id="trains">
+  <div class="section-head"><div class="tag">High-Speed Rail</div><h2>高鐵班次與買票</h2></div>
+  <div id="trainInfo"></div>
+</section>
+<section style="padding-top:0">
+  <div class="section-head"><div class="tag">Local</div><h2>本地交通安排</h2></div>
+  <div class="doc-grid" id="localTransport"></div>
+</section>
+</div>
+
+<!-- ================= F. 美食 ================= -->
+<div class="view" id="view-food">
+<section>
+  <div class="section-head"><div class="tag">Must-eat</div><h2>潮汕必食</h2></div>
+  <div class="food-grid" id="foodDishes"></div>
+</section>
+<section style="padding-top:0">
+  <div class="section-head"><div class="tag">Where</div><h2>食街 · 老字號（按行程排）</h2></div>
+  <div class="table-scroll"><table class="data" id="foodPlaces"></table></div>
+</section>
+</div>
+
+<!-- ================= G. 預算 ================= -->
+<div class="view" id="view-budget">
+<section>
+  <div class="section-head"><div class="tag">Budget Tracker</div><h2 id="budgetTitle">預算總覽</h2></div>
+  <div class="plan-bar"><div class="plan-switch" data-role="plan-switch"></div></div>
+  <div class="budget-grid">
+    <div class="budget-total" id="budgetTotal"></div>
+    <div class="budget-bars" id="budgetBars"></div>
+  </div>
+</section>
+<section style="padding-top:0">
+  <div class="section-head"><div class="tag">Edit</div><h2>逐項修改</h2></div>
+  <div class="table-scroll"><table class="bud-table" id="budgetTable"></table></div>
+  <div class="bud-actions">
+    <button id="budAdd">＋ 新增項目</button>
+    <button id="budReset">↺ 還原預設</button>
+    <label>匯率：¥1 = HK$ <input type="number" step="0.01" id="fxInput"></label>
+  </div>
+  <div class="budget-note">「每人」項目會按旅客人數乘；「每房」按每 2 人 1 間房計（單數會多開一間）；住宿晚數跟出發方案。所有修改只存喺呢部機（localStorage）。</div>
+</section>
+</div>
+
+<!-- ================= 貼士 / 來源 ================= -->
+<div class="view" id="view-tips">
+<section>
+  <div class="section-head"><div class="tag">Good to know</div><h2>出發前貼士</h2></div>
+  <div class="tips"><ul id="tipsList"></ul></div>
+</section>
+<section style="padding-top:0">
+  <div class="section-head"><div class="tag">Sources</div><h2>資料來源（2026-11-24 搜集）</h2></div>
+  <ul class="src-list" id="srcList"></ul>
+</section>
+</div>
+
+<footer>
+  班次、票價來自 12306（2026-11-24 查詢）；酒店價錢、餐飲、包車費用為估算；開放時間以景區最新公佈為準 · 潮汕四日高鐵之旅 · 12月24日–27日
+</footer>
+
+<div id="lightbox"><img alt=""><div class="cap"></div></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="data/trip-data.js"></script>
+<script src="data/photos.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
