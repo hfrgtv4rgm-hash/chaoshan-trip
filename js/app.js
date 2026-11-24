@@ -24,6 +24,10 @@
   const stripNums = s => String(s).replace(/[①-⑳]\s?/g, '');
   const VB = { ok:'<span class="vb ok">已核實</span>', est:'<span class="vb est">估算</span>', na:'<span class="vb na">未公佈</span>' };
 
+  if (store.get('dataVersion', 0) !== (T.meta.dataVersion || 1)) {
+    try { ['travellers', 'budget'].forEach(k => localStorage.removeItem(PFX + k)); } catch (e) {}
+    store.set('dataVersion', T.meta.dataVersion || 1);
+  }
   const state = {
     plan: store.get('plan', 'A'),
     trav: store.get('travellers', T.meta.defaultTravellers),
@@ -47,7 +51,7 @@
   const amapSearch = (kw, city) => 'https://uri.amap.com/search?keyword=' + encodeURIComponent(kw) + (city ? '&city=' + encodeURIComponent(city) : '') + '&callnative=1';
 
   const photoOf = p => (p && p.photo && PH[p.photo] && PH[p.photo][0]) || null;
-  const imgTag = (ph, cls, alt) => ph ? '<img class="' + cls + '" loading="lazy" src="' + esc(ph.src) + '" data-full="' + esc(ph.src) + '" data-page="' + esc(ph.page) + '" data-lic="' + esc(ph.license) + '" alt="' + esc(alt || '') + '" referrerpolicy="no-referrer">' : '';
+  const imgTag = (ph, cls, alt) => ph ? '<img class="' + cls + '" loading="lazy" src="' + esc(ph.src) + '" data-full="' + esc(ph.src) + '" data-page="' + esc(ph.page) + '" data-lic="' + esc(ph.license) + '" alt="' + esc(alt || '') + '" referrerpolicy="no-referrer" onerror="this.remove()">' : '';
 
   /* ---------------- numbering (itinerary ↔ map) ---------------- */
   function numbering(dayId){
@@ -73,7 +77,7 @@
     const shots = [['nanao','南澳島'],['guangji','潮州 廣濟橋'],['smallpark','汕頭 小公園'],['xuegong','揭陽 學宮']];
     $('#heroPhotos').innerHTML = shots.map(s => {
       const ph = PH[s[0]] && PH[s[0]][0];
-      return ph ? '<figure>' + imgTag(ph, '', s[1]) + '<figcaption>' + s[1] + '</figcaption></figure>' : '';
+      return ph ? '<figure>' + imgTag(ph, '', s[1]).replace('onerror="this.remove()"', 'onerror="this.parentNode.remove()"') + '<figcaption>' + s[1] + '</figcaption></figure>' : '';
     }).join('');
     const b = budgetCalc();
     $('#heroStats').innerHTML =
@@ -127,7 +131,7 @@
       const km = drives.reduce((s, i) => s + (i.km || 0), 0);
       const nn = Object.values(numbering(id)); const stops = nn.length ? Math.max.apply(null, nn) : 0;
       return '<div class="ov-day" style="--c:' + d.color + '" data-goto-day="' + id + '">' +
-        '<div class="ph" style="background-image:url(\'' + (firstPh ? firstPh.src : '') + '\')"></div>' +
+        (firstPh ? '<div class="ph" data-bg="' + esc(firstPh.src) + '"></div>' : '') +
         '<div class="bd"><div class="dn">DAY ' + d.n + ' · ' + d.label + '</div><h4>' + esc(d.title.replace(/^Day \d · /, '')) + '</h4>' +
         '<div class="st">📍 ' + stops + ' 站　🚗 約 ' + Math.round(km) + ' km</div></div></div>';
     }).join('');
@@ -192,7 +196,7 @@
     if (it.type === 'drive') return driveRow(it, key);
     const p = it.place ? P[it.place] : null;
     const num = p && nums[it.place];
-    const cls = it.type === 'rail' ? 'rail' : it.type === 'walk' ? 'walk' : it.type === 'free' ? 'free' : '';
+    const cls = it.type === 'rail' ? 'rail' : it.type === 'walk' ? 'walk' : it.type === 'free' ? 'free' : it.type === 'car' ? 'car' : '';
     let act = '';
     const title = it.title ? stripNums(it.title) : (p ? p.zh : '');
     const pin = num ? '<span class="num-pin" style="background:' + color + '">' + num + '</span>' : '';
@@ -221,7 +225,7 @@
     act = '<div class="act-wrap">' + (ph ? imgTag(ph, 'act-thumb', p.zh) : '') + '<div>' + pin + hotelIcon + esc(title) +
       (p && p.approx ? '<span class="vb est">位置約略</span>' : '') +
       (links ? '<div class="links">' + links + '</div>' : '') + sub + '</div></div>';
-    const transport = it.type === 'rail' ? '🚄 高鐵' : it.type === 'walk' ? '🚶 步行' : (p && p.area ? esc(p.area) : '—');
+    const transport = it.type === 'rail' ? '🚄 高鐵' : it.type === 'car' ? '<a class="info-btn" href="#carSchedule">🚐 包車時間表</a>' : it.type === 'walk' ? '🚶 步行' : (p && p.area ? esc(p.area) : '—');
     return '<tr class="' + cls + '"><td class="time">' + esc(it.time) + (it.dur ? '<span class="dur">（' + esc(it.dur) + '）</span>' : '') + '</td>' +
       '<td class="activity">' + act + '</td><td class="note">' + transport + '</td>' +
       '<td class="col-budget">' + costCell(it) + '</td><td class="col-paid"><input type="checkbox" class="paid-check" data-key="' + key + '"></td></tr>';
@@ -305,7 +309,7 @@
   function popupHtml(pid){
     const p = P[pid], ph = photoOf(p);
     const days = placeDays(pid);
-    let h = '<div class="pop">' + (ph ? imgTag(ph, '', p.zh) + '<div class="credit">相片：<a target="_blank" rel="noopener" href="' + esc(ph.page) + '">Wikimedia Commons</a> · ' + esc(ph.license) + '</div>' : '<div class="noimg">暫無可靠相片 · <a target="_blank" rel="noopener" href="https://image.baidu.com/search/index?tn=baiduimage&word=' + encodeURIComponent(p.zh) + '">搜尋相片 ↗</a></div>') +
+    let h = '<div class="pop">' + (ph ? imgTag(ph, '', p.zh) + '<div class="credit">相片：<a target="_blank" rel="noopener" href="' + esc(ph.page) + '">Wikimedia Commons</a> · ' + esc(ph.license) + '</div>' : '') +
       days.map(d => '<span class="daytag" style="background:' + d.color + '">Day ' + d.n + '</span>').join('') +
       '<h5>' + esc(p.zh) + '</h5><div class="en">' + esc(p.en) + (p.approx ? ' · <span class="vb est">位置約略</span>' : '') + '</div>' +
       '<div class="meta">📍 ' + esc(p.area || '') + '</div>' +
@@ -396,7 +400,7 @@
           if (P[o.id]) return;
           const pp = { zh:o.zh, en:o.en, lat:o.lat, lng:o.lng, type:'hotel', area:hc.city + '（候選酒店）', desc:'候選酒店 · ' + o.rating + '<br>估算 ¥' + o.price[0] + '–' + o.price[1] + '／晚', tips:o.pros.join('；'), approx:o.approx, v:'est' };
           P['_' + o.id] = pp;
-          L.marker([o.lat, o.lng], { icon: L.divIcon({ className:'leaflet-div-icon', html:'<div class="mpin hotel" style="background:#6b8f7b;opacity:.85"><span>🏨</span></div>', iconSize:[30,30], iconAnchor:[15,28], popupAnchor:[0,-26] }) }).bindPopup(popupHtml('_' + o.id), { maxWidth:280 }).addTo(g);
+          L.marker([o.lat, o.lng], { icon: L.divIcon({ className:'leaflet-div-icon', html:'<div class="mpin hotel" style="background:#b8946f;opacity:.9"><span>🏨</span></div>', iconSize:[30,30], iconAnchor:[15,28], popupAnchor:[0,-26] }) }).bindPopup(popupHtml('_' + o.id), { maxWidth:280 }).addTo(g);
         }));
       }
       return g;
@@ -464,6 +468,8 @@
         const p = P[it.place], n = nums[it.place];
         const pin = n ? '<span class="num-pin" style="background:' + d.color + '">' + n + '</span>' : '<span class="pin">' + (p.type === 'hotel' ? '🏨' : p.type === 'station' ? '🚄' : '📍') + '</span>';
         html += '<div class="leg-item">' + pin + '<div><div class="nm" data-focus="' + it.place + '">' + esc(stripNums(it.title || p.zh)) + '</div><div class="lg">' + esc(it.time) + (p.time ? ' · 建議 ' + esc(p.time) : '') + '</div></div></div>';
+      } else if (it.type === 'car') {
+        html += '<div class="leg-item"><span class="pin">🚐</span><div><div class="nm">' + esc(it.title.replace(/^🚐\s*/, '')) + '</div><div class="lg">' + esc(it.time) + '</div></div></div>';
       } else if (it.type === 'rail') {
         html += '<div class="leg-item"><span class="pin">🚄</span><div><div class="nm">' + esc(stripNums(it.title)) + '</div><div class="lg">' + esc(it.time) + '</div></div></div>';
       }
@@ -561,6 +567,12 @@
       '<div class="doc-card"><h4>🔁 後備方案</h4><ul><li>' + esc(T.trains.backup) + '</li><li>G900 20:00 西九龍 → 潮汕 22:11 只見於週五至週一，12/24（四）大機會冇。</li></ul></div>' +
       '<div class="doc-card"><h4>🎫 買票連結</h4><div class="btn-row">' + T.trains.links.map(l => '<a class="link-btn" target="_blank" rel="noopener" href="' + esc(l[1]) + '">' + esc(l[0]) + ' ↗</a>').join('') + '</div><div class="doc-sub" style="margin-top:10px">12306 用回鄉證實名購票；香港段網上購票截止為開車前 30 分鐘。票價以人民幣計；經港鐵購票以港幣計，金額或有差異。</div></div>' +
       '</div>';
+    const cs = T.carSchedule || [];
+    const csTot = cs.reduce((a, c) => [a[0] + c.cost[0], a[1] + c.cost[1]], [0, 0]);
+    $('#carSchedule').innerHTML = '<div class="tbl-card"><h4>🚐 包車取車／還車時間表（' + state.trav + ' 人 · 7 座商務車連司機）</h4><div class="table-scroll"><table class="data"><tr><th>日子</th><th>服務</th><th>取車（時間・地點）</th><th>還車（時間・地點）</th><th>時數</th><th>估算費用</th><th>已訂</th></tr>' +
+      cs.map((c, i) => '<tr><td class="tno">' + esc(c.day) + '</td><td>' + esc(c.service) + '</td><td><b>' + esc(c.pickup) + '</b></td><td><b>' + esc(c.ret) + '</b></td><td class="small">' + esc(c.hours) + '</td><td>¥' + c.cost[0] + '–' + c.cost[1] + ' ' + VB.est + '</td><td class="col-paid"><input type="checkbox" class="persist-check" data-key="car-' + i + '"></td></tr>').join('') +
+      '<tr><td colspan="5" style="text-align:right;font-weight:700">合計（估算）</td><td><b>¥' + fmt(csTot[0]) + '–' + fmt(csTot[1]) + '</b><div class="small">≈HK$' + fmt(csTot[0] * state.fx) + '–' + fmt(csTot[1] * state.fx) + '</div></td><td></td></tr></table></div></div>';
+    initPersisted($('#carSchedule'));
     $('#localTransport').innerHTML = T.localTransport.map(x => '<div class="doc-card"><h4>' + x.title + '</h4><div class="doc-sub" style="font-size:13px;color:var(--ink)">' + x.body + '</div>' + (x.cost ? '<div class="fee"><span class="tot">' + x.cost + '</span> ' + VB.est + '</div>' : '') + '</div>').join('');
   }
 
@@ -570,7 +582,7 @@
   function renderFood(){
     $('#foodDishes').innerHTML = T.foodDishes.map(f => {
       const ph = f.photo && PH[f.photo] && PH[f.photo][0];
-      return '<div class="food-card">' + (ph ? '<div class="ph" style="background-image:url(\'' + ph.src + '\')" data-full="' + esc(ph.src) + '" data-page="' + esc(ph.page) + '" data-lic="' + esc(ph.license) + '"></div>' : '') +
+      return '<div class="food-card">' + (ph ? '<div class="ph" data-bg="' + esc(ph.src) + '" data-full="' + esc(ph.src) + '" data-page="' + esc(ph.page) + '" data-lic="' + esc(ph.license) + '"></div>' : '') +
         '<div class="bd"><h4>' + esc(f.zh) + '</h4><div class="en">' + esc(f.en) + '</div><p>' + esc(f.desc) + '</p><div class="cost">' + esc(f.cost) + '</div></div></div>';
     }).join('');
     $('#foodPlaces').innerHTML = '<tr><th>地方</th><th>行程日</th><th>推介</th><th>營業時間</th><th>人均</th><th>地圖</th></tr>' +
@@ -695,10 +707,21 @@
   /* =====================================================================
      啟動
      ===================================================================== */
+  /* 背景相：先試載入，成功先顯示；失敗就成格刪走 */
+  function applyBgs(){
+    $$('[data-bg]').forEach(el => {
+      const url = el.dataset.bg; el.removeAttribute('data-bg');
+      const im = new Image();
+      im.onload = () => { el.style.backgroundImage = 'url("' + url + '")'; };
+      im.onerror = () => el.remove();
+      im.src = url;
+    });
+  }
   function renderAll(){
     renderPlanSwitches(); renderHero(); renderOverview(); renderWeather(); renderItin();
     renderHotels(); renderTransport(); renderFood(); renderBudget(); renderTips();
     if (mapReady) drawMap();
+    applyBgs();
   }
   onChange(renderAll);
   renderAll();

@@ -198,3 +198,32 @@ table.data .small{font-size:11.5px; color:var(--ink-soft);}
   .hotel-card .pc{grid-template-columns:1fr;}
 }
 @media print{.main-tabs,#routeMap,.map-toolbar{display:none;} .view{display:block!important;}}
+
+/* =====================================================================
+   淺啡色主題（覆蓋 Hokkaido 原本嘅森林綠）
+   ===================================================================== */
+:root{
+  --forest:#9a7250;        /* 主色：淺啡（按鈕、已選分頁、標題） */
+  --forest-deep:#7d5a3e;
+  --char:#3b2e24;
+  --lake:#a0703f;          /* 小標題、日期 */
+  --lake-light:#c9a27c;
+  --amber:#c7803d;
+  --amber-soft:#fbe7cc;
+  --cream:#f3e9db;
+  --paper:#fbf7f1;
+  --line:#e3d4c0;
+  --ink:#3b2e24;
+  --ink-soft:#7a6a5a;
+  --tabelog:#8a5a2e;
+}
+.hero{background:radial-gradient(120% 140% at 15% 0%, #d2b08c 0%, #b48b65 45%, #93694a 100%);}
+.hero::after{background:radial-gradient(circle, rgba(255,236,205,0.35), transparent 70%);}
+.hero p.lead{color:#fff6ea;}
+.hstat .lbl{color:#fbead6;}
+.hero-photos figure{background:#a98262;}
+.budget-total .sub,.release .f{color:#f3e2cd;}
+.rec-box{background:#f6ede2; border-color:#e3cfb6;}
+table.data tr.rec td,table.itin tr.rail td,table.itin tr.flight td{background:#f4ebdf;}
+table.itin tr.car td{background:#f7efe3;}
+.mbtn.active{background:var(--forest-deep); border-color:var(--forest-deep);}
