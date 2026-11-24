@@ -589,13 +589,14 @@
       return '<div class="food-card">' + (ph ? '<div class="ph" data-bg="' + esc(ph.src) + '" data-full="' + esc(ph.src) + '" data-page="' + esc(ph.page) + '" data-lic="' + esc(ph.license) + '"></div>' : '') +
         '<div class="bd"><h4>' + esc(f.zh) + '</h4><div class="en">' + esc(f.en) + '</div><p>' + esc(f.desc) + '</p><div class="cost">' + esc(f.cost) + '</div></div></div>';
     }).join('');
-    $('#foodPlaces').innerHTML = '<tr><th>地方</th><th>行程日</th><th>推介</th><th>營業時間</th><th>人均</th><th>地圖</th></tr>' +
+    $('#foodPlaces').innerHTML = '<tr><th>行程日</th><th>餐廳</th><th>點評推薦菜</th><th>點評評分</th><th>人均</th><th>連結</th></tr>' +
       T.foodPlaces.map(f => {
         const p = f.place ? P[f.place] : null;
         const city = /潮州/.test(f.area) ? '潮州' : /揭陽/.test(f.area) ? '揭阳' : '汕头';
         const mapLinks = p ? '<a class="gmap-btn maponly-btn" data-showplace="' + f.place + '">📍 地圖</a> <a class="amap-btn" target="_blank" rel="noopener" href="' + amapMarker(p) + '">高德</a>'
-          : '<a class="amap-btn" target="_blank" rel="noopener" href="' + amapSearch(f.search || f.name, city) + '">高德搜尋</a><div class="small">未有核實座標，冇放上地圖</div>';
-        return '<tr><td><b>' + esc(f.name) + '</b><div class="small">' + esc(f.area) + '</div>' + (f.note ? '<div class="small">' + esc(f.note) + '</div>' : '') + '</td><td class="small">' + esc(f.day) + '</td><td>' + esc(f.dish) + '</td><td class="small">' + esc(f.hours) + '</td><td>' + esc(f.cost) + ' ' + VB[f.v] + '</td><td><div class="links">' + mapLinks + '</div></td></tr>';
+          : '<a class="amap-btn" target="_blank" rel="noopener" href="' + amapSearch(f.search || f.name, city) + '">高德搜尋</a>';
+        const dpLink = f.city ? ' <a class="link-btn" target="_blank" rel="noopener" href="https://www.dianping.com/search/keyword/' + f.city + '/0_' + encodeURIComponent(f.name) + '">點評 ↗</a>' : '';
+        return '<tr><td class="small"><b>' + esc(f.day) + '</b></td><td><b>' + esc(f.name) + '</b><div class="small">' + esc(f.area) + '</div>' + (f.note ? '<div class="small">' + esc(f.note) + '</div>' : '') + '</td><td>' + esc(f.dish) + '</td><td class="small">' + (f.city ? '⭐ ' : '') + esc(f.dp || '—') + '</td><td>' + esc(f.cost) + ' ' + VB[f.v] + '</td><td><div class="links">' + mapLinks + dpLink + '</div></td></tr>';
       }).join('');
   }
 
