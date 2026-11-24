@@ -518,7 +518,7 @@
           const isRec = o.id === hc.rec;
           const mid = (o.price[0] + o.price[1]) / 2;
           return '<div class="hotel-card ' + (isRec ? 'rec' : '') + '" id="hotel-' + o.id + '">' +
-            '<h4>' + esc(o.zh) + (isRec ? '<span class="rec-tag">推薦</span>' : '') + '</h4><div class="en">' + esc(o.en) + '</div>' +
+            '<h4>' + esc(o.zh) + (isRec ? '<span class="rec-tag">' + (hc.chosen ? '已揀' : '推薦') + '</span>' : '') + '</h4><div class="en">' + esc(o.en) + '</div>' +
             '<dl><dt>評分</dt><dd>' + esc(o.rating) + ' ' + VB[o.ratingV] + '</dd>' +
             '<dt>每晚</dt><dd><span class="price-big">¥' + o.price[0] + '–' + o.price[1] + '</span> ' + VB.est + '<br><span class="mini">≈HK$' + fmt(o.price[0] * state.fx) + '–' + fmt(o.price[1] * state.fx) + '</span></dd>' +
             '<dt>住宿總額</dt><dd>約 ¥' + fmt(mid * nights * rooms) + '（' + nights + ' 晚 × ' + rooms + ' 房，按中位數）</dd>' +
@@ -563,7 +563,7 @@
       trainTable(T.trains.outbound, '去程：香港西九龍 → 汕頭／潮汕（12/24（四））') +
       trainTable(T.trains.ret, '回程：潮汕／揭陽／汕頭 → 香港西九龍（12/27（日））') +
       '<div class="doc-grid" style="margin-bottom:22px">' +
-      '<div class="doc-card"><h4>🚉 車站點揀？</h4><ul><li><b>去程：汕頭站</b> — G6578 直達，到珠港新城酒店約 8 km。潮汕站離汕頭市區約 45 km，唔建議夜晚到。</li><li><b>回程：潮汕站</b> — 揭陽南站（離揭陽酒店最近）<b>冇直達香港</b>；12306 列為「揭陽」嘅 G6391 其實喺惠來站開出（距市區約 60 km）。潮汕站每日 6 班直達。</li><li>Day 4 由揭陽古城自駕去潮汕站約 32 km、約 40 分鐘，14:10 到站還車。</li></ul></div>' +
+      '<div class="doc-card"><h4>🚉 車站點揀？</h4><ul><li><b>去程：汕頭站</b> — G6578 直達，到龍眼南路全季酒店約 7 km。潮汕站離汕頭市區約 45 km，唔建議夜晚到。</li><li><b>回程：潮汕站</b> — 揭陽南站（離揭陽酒店最近）<b>冇直達香港</b>；12306 列為「揭陽」嘅 G6391 其實喺惠來站開出（距市區約 60 km）。潮汕站每日 6 班直達。</li><li>Day 4 由揭陽古城自駕去潮汕站約 32 km、約 40 分鐘，14:10 到站還車。</li></ul></div>' +
       '<div class="doc-card"><h4>🔁 後備方案</h4><ul><li>' + esc(T.trains.backup) + '</li><li>G900 20:00 西九龍 → 潮汕 22:11 只見於週五至週一，12/24（四）大機會冇。</li></ul></div>' +
       '<div class="doc-card"><h4>🎫 買票連結</h4><div class="btn-row">' + T.trains.links.map(l => '<a class="link-btn" target="_blank" rel="noopener" href="' + esc(l[1]) + '">' + esc(l[0]) + ' ↗</a>').join('') + '</div><div class="doc-sub" style="margin-top:10px">12306 用回鄉證實名購票；香港段網上購票截止為開車前 30 分鐘。票價以人民幣計；經港鐵購票以港幣計，金額或有差異。</div></div>' +
       '</div>';
@@ -629,7 +629,7 @@
     $('#budgetBars').innerHTML = cats.map(c => {
       const v = b.byCat[c] || 0, pct = b.total ? Math.round(v / b.total * 100) : 0;
       return '<div class="bar-row"><div class="bar-top"><span>' + T.budgetCats[c] + '</span><span class="amt">¥' + fmt(v) + ' ≈ HK$' + fmt(v * state.fx) + ' · ' + pct + '%</span></div><div class="bar-track"><div class="bar-fill" style="width:' + pct + '%"></div></div></div>';
-    }).join('') + '<div class="budget-note">住宿：汕頭 ' + stNights() + ' 晚 + 揭陽 1 晚，每 2 人 1 間房。</div>';
+    }).join('') + '<div class="budget-note">住宿：汕頭 1 晚 + 南澳 1 晚 + 揭陽 1 晚，每 2 人 1 間房。</div>';
     const catOpts = sel => cats.map(c => '<option value="' + c + '"' + (c === sel ? ' selected' : '') + '>' + T.budgetCats[c] + '</option>').join('');
     const perOpts = sel => [['person','每人'],['room','每房'],['group','全團']].map(p => '<option value="' + p[0] + '"' + (p[0] === sel ? ' selected' : '') + '>' + p[1] + '</option>').join('');
     $('#budgetTable').innerHTML = '<tr><th>類別</th><th>項目</th><th>單價（¥）</th><th>計算</th><th>狀態</th><th style="text-align:right">小計</th><th></th></tr>' +
