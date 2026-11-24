@@ -73,7 +73,7 @@
      ===================================================================== */
   function renderHero(){
     $('#heroEyebrow').textContent = 'Chaoshan Rail Trip · ' + state.trav + ' Travellers';
-    $('#heroLead').innerHTML = T.meta.dates + '，4日3夜。12/24 晚 18:07 由香港西九龍搭高鐵到汕頭，包車環遊南澳島，行潮州古城、揭陽學宮，最後由潮汕站搭高鐵返港。';
+    $('#heroLead').innerHTML = T.meta.dates + '，4日3夜。12/24 晚 18:07 由香港西九龍搭高鐵到汕頭，自駕 SUV 環遊南澳島，行潮州古城、揭陽學宮，最後由潮汕站搭高鐵返港。';
     const shots = [['nanao','南澳島'],['guangji','潮州 廣濟橋'],['smallpark','汕頭 小公園'],['xuegong','揭陽 學宮']];
     $('#heroPhotos').innerHTML = shots.map(s => {
       const ph = PH[s[0]] && PH[s[0]][0];
@@ -225,7 +225,7 @@
     act = '<div class="act-wrap">' + (ph ? imgTag(ph, 'act-thumb', p.zh) : '') + '<div>' + pin + hotelIcon + esc(title) +
       (p && p.approx ? '<span class="vb est">位置約略</span>' : '') +
       (links ? '<div class="links">' + links + '</div>' : '') + sub + '</div></div>';
-    const transport = it.type === 'rail' ? '🚄 高鐵' : it.type === 'car' ? '<a class="info-btn" href="#carSchedule">🚐 包車時間表</a>' : it.type === 'walk' ? '🚶 步行' : (p && p.area ? esc(p.area) : '—');
+    const transport = it.type === 'rail' ? '🚄 高鐵' : it.type === 'car' ? '<a class="info-btn" href="#carSchedule">🚙 租車安排</a>' : it.type === 'walk' ? '🚶 步行' : (p && p.area ? esc(p.area) : '—');
     return '<tr class="' + cls + '"><td class="time">' + esc(it.time) + (it.dur ? '<span class="dur">（' + esc(it.dur) + '）</span>' : '') + '</td>' +
       '<td class="activity">' + act + '</td><td class="note">' + transport + '</td>' +
       '<td class="col-budget">' + costCell(it) + '</td><td class="col-paid"><input type="checkbox" class="paid-check" data-key="' + key + '"></td></tr>';
@@ -469,7 +469,7 @@
         const pin = n ? '<span class="num-pin" style="background:' + d.color + '">' + n + '</span>' : '<span class="pin">' + (p.type === 'hotel' ? '🏨' : p.type === 'station' ? '🚄' : '📍') + '</span>';
         html += '<div class="leg-item">' + pin + '<div><div class="nm" data-focus="' + it.place + '">' + esc(stripNums(it.title || p.zh)) + '</div><div class="lg">' + esc(it.time) + (p.time ? ' · 建議 ' + esc(p.time) : '') + '</div></div></div>';
       } else if (it.type === 'car') {
-        html += '<div class="leg-item"><span class="pin">🚐</span><div><div class="nm">' + esc(it.title.replace(/^🚐\s*/, '')) + '</div><div class="lg">' + esc(it.time) + '</div></div></div>';
+        html += '<div class="leg-item"><span class="pin">' + (it.title.startsWith('🅿') ? '🅿' : '🚙') + '</span><div><div class="nm">' + esc(it.title.replace(/^(🚙|🅿)\s*/u, '')) + '</div><div class="lg">' + esc(it.time) + '</div></div></div>';
       } else if (it.type === 'rail') {
         html += '<div class="leg-item"><span class="pin">🚄</span><div><div class="nm">' + esc(stripNums(it.title)) + '</div><div class="lg">' + esc(it.time) + '</div></div></div>';
       }
@@ -563,15 +563,19 @@
       trainTable(T.trains.outbound, '去程：香港西九龍 → 汕頭／潮汕（12/24（四））') +
       trainTable(T.trains.ret, '回程：潮汕／揭陽／汕頭 → 香港西九龍（12/27（日））') +
       '<div class="doc-grid" style="margin-bottom:22px">' +
-      '<div class="doc-card"><h4>🚉 車站點揀？</h4><ul><li><b>去程：汕頭站</b> — G6578 直達，到珠港新城酒店約 8 km。潮汕站離汕頭市區約 45 km，唔建議夜晚到。</li><li><b>回程：潮汕站</b> — 揭陽南站（離揭陽酒店最近）<b>冇直達香港</b>；12306 列為「揭陽」嘅 G6391 其實喺惠來站開出（距市區約 60 km）。潮汕站每日 6 班直達。</li><li>揭陽樓亞朵 → 潮汕站約 26 km、約 30–40 分鐘，建議開車前 75–90 分鐘出發。</li></ul></div>' +
+      '<div class="doc-card"><h4>🚉 車站點揀？</h4><ul><li><b>去程：汕頭站</b> — G6578 直達，到珠港新城酒店約 8 km。潮汕站離汕頭市區約 45 km，唔建議夜晚到。</li><li><b>回程：潮汕站</b> — 揭陽南站（離揭陽酒店最近）<b>冇直達香港</b>；12306 列為「揭陽」嘅 G6391 其實喺惠來站開出（距市區約 60 km）。潮汕站每日 6 班直達。</li><li>Day 4 由揭陽古城自駕去潮汕站約 32 km、約 40 分鐘，14:10 到站還車。</li></ul></div>' +
       '<div class="doc-card"><h4>🔁 後備方案</h4><ul><li>' + esc(T.trains.backup) + '</li><li>G900 20:00 西九龍 → 潮汕 22:11 只見於週五至週一，12/24（四）大機會冇。</li></ul></div>' +
       '<div class="doc-card"><h4>🎫 買票連結</h4><div class="btn-row">' + T.trains.links.map(l => '<a class="link-btn" target="_blank" rel="noopener" href="' + esc(l[1]) + '">' + esc(l[0]) + ' ↗</a>').join('') + '</div><div class="doc-sub" style="margin-top:10px">12306 用回鄉證實名購票；香港段網上購票截止為開車前 30 分鐘。票價以人民幣計；經港鐵購票以港幣計，金額或有差異。</div></div>' +
       '</div>';
-    const cs = T.carSchedule || [];
-    const csTot = cs.reduce((a, c) => [a[0] + c.cost[0], a[1] + c.cost[1]], [0, 0]);
-    $('#carSchedule').innerHTML = '<div class="tbl-card"><h4>🚐 包車取車／還車時間表（' + state.trav + ' 人 · 7 座商務車連司機）</h4><div class="table-scroll"><table class="data"><tr><th>日子</th><th>服務</th><th>取車（時間・地點）</th><th>還車（時間・地點）</th><th>時數</th><th>估算費用</th><th>已訂</th></tr>' +
-      cs.map((c, i) => '<tr><td class="tno">' + esc(c.day) + '</td><td>' + esc(c.service) + '</td><td><b>' + esc(c.pickup) + '</b></td><td><b>' + esc(c.ret) + '</b></td><td class="small">' + esc(c.hours) + '</td><td>¥' + c.cost[0] + '–' + c.cost[1] + ' ' + VB.est + '</td><td class="col-paid"><input type="checkbox" class="persist-check" data-key="car-' + i + '"></td></tr>').join('') +
-      '<tr><td colspan="5" style="text-align:right;font-weight:700">合計（估算）</td><td><b>¥' + fmt(csTot[0]) + '–' + fmt(csTot[1]) + '</b><div class="small">≈HK$' + fmt(csTot[0] * state.fx) + '–' + fmt(csTot[1] * state.fx) + '</div></td><td></td></tr></table></div></div>';
+    const cr = T.carRental;
+    const crTot = cr.costs.reduce((a, c) => [a[0] + c[1], a[1] + c[2]], [0, 0]);
+    $('#carSchedule').innerHTML = '<div class="tbl-card"><h4>🚙 自駕租車：取車／還車時間表（' + state.trav + ' 人 · ' + esc(cr.vehicle) + '）</h4><div class="table-scroll"><table class="data"><tr><th>時間</th><th>事項</th><th>地點</th><th>備註</th><th>已辦</th></tr>' +
+      cr.steps.map((c, i) => '<tr><td class="tno">' + esc(c.when) + '</td><td><b>' + esc(c.what) + '</b></td><td>' + esc(c.where) + '</td><td class="small">' + esc(c.note) + '</td><td class="col-paid"><input type="checkbox" class="persist-check" data-key="rent-' + i + '"></td></tr>').join('') +
+      '</table></div>' +
+      '<h4 style="margin-top:16px">💴 租車費用估算 ' + VB.est + '</h4><div class="table-scroll"><table class="data"><tr><th>項目</th><th>估算</th></tr>' +
+      cr.costs.map(c => '<tr><td>' + esc(c[0]) + '</td><td>¥' + fmt(c[1]) + '–' + fmt(c[2]) + '</td></tr>').join('') +
+      '<tr><td style="text-align:right;font-weight:700">合計（估算）</td><td><b>¥' + fmt(crTot[0]) + '–' + fmt(crTot[1]) + '</b><div class="small">≈HK$' + fmt(crTot[0] * state.fx) + '–' + fmt(crTot[1] * state.fx) + '</div></td></tr></table></div>' +
+      '<div class="small" style="margin-top:8px;color:var(--ink-soft)">' + esc(cr.deposit) + '</div></div>';
     initPersisted($('#carSchedule'));
     $('#localTransport').innerHTML = T.localTransport.map(x => '<div class="doc-card"><h4>' + x.title + '</h4><div class="doc-sub" style="font-size:13px;color:var(--ink)">' + x.body + '</div>' + (x.cost ? '<div class="fee"><span class="tot">' + x.cost + '</span> ' + VB.est + '</div>' : '') + '</div>').join('');
   }
@@ -619,7 +623,7 @@
     const b = budgetCalc();
     $('#budgetTitle').textContent = '預算總覽（' + state.trav + ' 人 · 4日3夜）';
     $('#budgetTotal').innerHTML = '<div><div class="sub">預算總額（' + state.trav + ' 人）</div><div class="big">¥' + fmt(b.total) + ' ≈ HK$' + fmt(b.total * state.fx) + '</div>' +
-      '<div class="sub">匯率約 ¥1 = HK$' + state.fx + '（僅供參考，可喺下面修改）。高鐵票價已核實；住宿、包車、餐飲為估算。</div></div>' +
+      '<div class="sub">匯率約 ¥1 = HK$' + state.fx + '（僅供參考，可喺下面修改）。高鐵票價已核實；住宿、租車、餐飲為估算。</div></div>' +
       '<div class="per-person"><span>人均預算</span><span>¥' + fmt(b.total / state.trav) + ' ≈ HK$' + fmt(b.total * state.fx / state.trav) + '</span></div>';
     const cats = Object.keys(T.budgetCats);
     $('#budgetBars').innerHTML = cats.map(c => {
