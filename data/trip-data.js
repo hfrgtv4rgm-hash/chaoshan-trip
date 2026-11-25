@@ -18,7 +18,7 @@ window.TRIP = {
     startDate: '2026-12-23',
     endDate: '2026-12-27',
     defaultTravellers: 4,
-    dataVersion: 5,        // 改咗預設值就加 1，會重設瀏覽器內舊嘅人數／預算
+    dataVersion: 6,        // 改咗預設值就加 1，會重設瀏覽器內舊嘅人數／預算
     fxHKDperCNY: 1.09,      // ≈ 匯率，可喺「預算」頁修改
     researchedOn: '2026-11-24',
     storagePrefix: 'stc:'   // localStorage 前綴，避免同 Hokkaido 版互相覆蓋
@@ -159,15 +159,20 @@ window.TRIP = {
       { no:'G926', time:'18:37 → 20:58（潮汕）', price:'¥266', verdict:'唔建議', note:'到潮汕站，再搭車約 45 km 入汕頭市區，實際比 G6578 更遲到酒店。' }
     ],
     cuts: {
-      title: 'Day 2 刪減咗咩？',
-      body: '原本 Day 2 要一日行 12 個點、約 166 km，而 12 月日落約 17:45、南澳景點 17:30 左右收，做唔切。已刪減：',
+      title: '鬆動版刪減咗咩？',
+      body: '每日都減少景點同車程，留時間玩密室、按摩、食糖水同打冷。已刪減：',
       removed: [
-        { place:'songjing', why:'睇唔睇到井口要靠潮退，冬天時間又緊，性價比最低。' },
-        { place:'qianao', why:'同長山尾燈塔性質重複（都係燈塔 + 海景），長山尾仲可以同南澳大橋同框。' }
+        { place:'hhsLine', why:'只係公路上一條打卡線，影完就走，唔值得專登停。' },
+        { place:'yunao', why:'環島要多兜一大段路；海鮮喺後宅食一樣得。' },
+        { place:'zongbing', why:'喺深澳鎮，要額外兜路，而且 17:30 收門要趕。' },
+        { place:'longquan', why:'喺汕頭市區另一邊，南澳去潮州要專登兜路，來回多約 1 小時車。' },
+        { place:'qinglong', why:'規模細，同韓文公祠、開元寺性質重複。' },
+        { place:'songjing', why:'睇唔睇到井口要靠潮退（之前已刪）。' },
+        { place:'qianao', why:'同長山尾燈塔重複（之前已刪）。' }
       ],
-      merged: '北回歸線廣場同自然之門係同一個園區，合併為一站。',
-      result: '保留 10 個點（汕頭老城、小公園、長山尾燈塔、南澳大橋、黃花山打卡線、雲澳、青澳灣、北回歸線廣場／自然之門、總兵府），08:00 取車出發，17:30 入住南澳雅斯特，行車約 102 km。',
-      optional: '如果當日行得快：錢澳灣燈塔喺黃花山去雲澳途中（只多約 4 km），可以停 15 分鐘影相；宋井離雲澳 1.5 km。'
+      merged: '北回歸線廣場同自然之門係同一個園區，合併為一站；長山尾燈塔改喺 Day 3 離島時順路停 30 分鐘。',
+      result: 'Day 2 行車由約 102 km 減到約 86 km，16:35 已入住；Day 3 唔使 07:30 起身，09:00 先出發，潮州成日步行；新增 🎭 密室逃脫（汕頭）、💆 沖腳按摩（揭陽）、🍧 糖水、滷鵝、打冷。',
+      optional: '如果 Day 2 下晝仲有精神：雲澳喺青澳去酒店方向附近，可以順路兜一兜；潮州西湖就喺停車場旁邊，取車前可行一個圈。'
     }
   },
 
@@ -185,59 +190,79 @@ window.TRIP = {
       ],
       route:['stStation','hotelQJ','longyan','hotelQJ'] },
 
-    B2: { n:2, date:'2026-12-25', label:'12/25（五）', color:'#3e6e8e', area:'汕頭老城 → 南澳島',
-      title:'Day 2 · 取車 → 汕頭老城 → 南澳島環島，住南澳', summary:'08:00 SUV 送到全季酒店，連行李出發：上午行汕頭老城同小公園，中午過南澳大橋，由西向東環島（長山尾 → 黃花山 → 雲澳 → 青澳 → 北回歸線 → 總兵府），17:30 入住南澳雅斯特。行車約 102 km。',
-      note:'<b>✎ 因為改住南澳：</b>汕頭老城由夜晚改到朝早行（騎樓街朝早人少、好影相），之後一程過島，唔使行回頭路。南澳景點由西向東行，最後一站總兵府喺深澳鎮，離後宅酒店約 15 km。<br><b>✂ 已刪減：</b>宋井（要潮退先見到井口）同錢澳灣燈塔（同長山尾燈塔重複）。<b>如果行得快：</b>錢澳灣燈塔喺黃花山去雲澳途中，可停 15 分鐘影相。',
+    B2: { n:2, date:'2026-12-25', label:'12/25（五）', color:'#3e6e8e', area:'汕頭 → 南澳島',
+      title:'Day 2 · 取車 → 汕頭老城早餐 → 密室逃脫 → 南澳青澳灣，住南澳', summary:'08:00 SUV 送到全季。上午慢慢行汕頭老城食早餐，10:30 玩密室逃脫，食完午餐先過南澳，只去青澳灣同北回歸線廣場，16:35 入住休息。行車約 86 km。',
+      note:'<b>✂ 鬆動版：</b>刪咗黃花山打卡線、雲澳、總兵府（南澳環島兜一圈要約 100 km，三個點都係「順路影相」級數）。南澳只留最值得去嘅<b>青澳灣</b>同<b>北回歸線廣場／自然之門</b>；長山尾燈塔改喺 Day 3 離島時順路停。<br><b>🎭 密室：</b>汕頭選擇最多，所以放喺上午。三間都係網上文章／地圖資料 <span class="vb est">未核實</span>，出發前喺點評／美團睇最新評分、預約 4 人場次。',
       items:[
         { time:'07:45–08:00', type:'car', place:'hotelQJ', title:'🚙 取車：租車公司 08:00 送 SUV 到全季酒店，退房、行李上車', note:'租期開始。驗車時影低車身四周、油量同里數；確認保險、押金同潮汕站異地還車已寫入訂單。' },
         { time:'08:00–08:15', type:'drive', from:'hotelQJ', to:'oldtown', km:5.2, osrm:7, est:15, note:'自駕，泊小公園附近停車場（位置以高德為準）' },
-        { time:'08:15–10:30', dur:'約 2 小時 15 分', type:'sight', place:'oldtown', title:'汕頭老城 ＋ 小公園 — 騎樓街、郵政總局大樓、開埠文化陳列館（外觀）＋ 🍽 早餐', also:'smallpark', note:'早餐：侗平腸粉（點評必吃榜 4.3）、老媽宮粽球；松英汫洲蠔仔粥（必吃榜 4.4）如已開門可試蠔仔烙。陳列館開放時間未核實，入唔到就睇外觀。', cost:{amt:50, per:'person', cat:'food', est:true} },
-        { time:'10:30–11:15', type:'drive', from:'smallpark', to:'csw', km:38.8, osrm:31, est:45, note:'經南澳大橋過島（橋上唔可以停車，過橋收費）' },
-        { time:'11:15–12:00', dur:'約 45 分鐘', type:'sight', place:'csw', title:'長山尾燈塔 ＋ 南澳大橋景觀', also:'nanaoBridge', cost:{amt:0, per:'person', cat:'ticket'} },
-        { time:'12:00–12:10', type:'drive', from:'csw', to:'hhsLine', km:3.9, osrm:4, est:10 },
-        { time:'12:10–12:30', dur:'約 20 分鐘', type:'sight', place:'hhsLine', title:'黃花山北回歸線打卡線', cost:{amt:0, per:'person', cat:'ticket'} },
-        { time:'12:30–12:55', type:'drive', from:'hhsLine', to:'yunao', km:19.4, osrm:19, est:25, note:'途經錢澳灣燈塔（已刪減，時間夠可停 15 分鐘）' },
-        { time:'12:55–14:05', dur:'約 1 小時 10 分', type:'meal', place:'yunao', title:'雲澳漁鄉風情小鎮 ＋ 🍽 海鮮午餐', cost:{amt:130, per:'person', cat:'food', est:true} },
-        { time:'14:05–14:20', type:'drive', from:'yunao', to:'qingao', km:9.1, osrm:9, est:15 },
-        { time:'14:20–15:20', dur:'約 1 小時', type:'sight', place:'qingao', title:'青澳灣', cost:{amt:0, per:'person', cat:'ticket'} },
-        { time:'15:20–15:25', type:'drive', from:'qingao', to:'gate', km:2.3, osrm:4, est:5 },
-        { time:'15:25–16:10', dur:'約 45 分鐘', type:'sight', place:'tropicSquare', title:'北回歸線廣場 ＋ 自然之門（同一園區）', also:'gate', cost:{amt:0, per:'person', cat:'ticket'} },
-        { time:'16:10–16:25', type:'drive', from:'tropicSquare', to:'zongbing', km:8.6, osrm:10, est:15 },
-        { time:'16:25–17:10', dur:'約 45 分鐘', type:'sight', place:'zongbing', title:'總兵府（17:30 關門前）', cost:{amt:10, per:'person', cat:'ticket', est:true} },
-        { time:'17:10–17:30', type:'drive', from:'zongbing', to:'hotelNA', km:14.8, osrm:12, est:20 },
-        { time:'17:30', type:'hotel', place:'hotelNA', title:'入住 雅斯特國際酒店（汕頭南澳島店）', note:'泊車安排請向酒店確認。', cost:{amt:450, per:'room', cat:'hotel', est:true} },
-        { time:'18:30–20:00', type:'meal', title:'🍽 晚餐：後宅鎮海鮮（酒店附近）', note:'海鮮按斤計，落單前問清價錢同做法。', cost:{amt:120, per:'person', cat:'food', est:true} }
+        { time:'08:15–10:15', dur:'約 2 小時', type:'sight', place:'oldtown', title:'汕頭老城 ＋ 小公園 — 騎樓街慢慢行 ＋ 🍽 早餐', also:'smallpark', note:'早餐：侗平腸粉（點評必吃榜 4.3）、老媽宮粽球；松英汫洲蠔仔粥（必吃榜 4.4）如已開門可試蠔仔烙。', cost:{amt:50, per:'person', cat:'food', est:true} },
+        { time:'10:15–10:30', type:'free', title:'🚗 自駕去密室（老城出發約 10–15 分鐘，視乎揀邊間）', note:'車程為估算；泊商場停車場。' },
+        { time:'10:30–12:00', dur:'約 1.5 小時', type:'sight', title:'🎭 密室逃脫（4 人一場）', note:'<b>要預約</b>：喺大眾點評／美團揀 10:30 場次，確認營業時間同 4 人價。行李放車尾。',
+          picks:[
+            { n:'神盾局密室', d:'萬象城五樓（多篇文章話喺萬象城，屬金平定龍湖有出入）· 非恐解謎 · 人均約 ¥78（文章）', kw:'神盾局 密室', c:'汕头', dp:207 },
+            { n:'Again·密室逃脫館', d:'金砂東路 97 號附近 · 非恐、無 NPC · 人均約 ¥82（360 地圖，129 條點評）', kw:'Again 密室逃脱', c:'汕头', dp:207 },
+            { n:'J先生真人實景密室', d:'長平路 93 號華乾大廈 2 樓 · 重恐、有 NPC · ¥99–108／人（文章）· 鍾意驚嚇先揀', kw:'J先生 真人实景密室', c:'汕头', dp:207 }
+          ], cost:{amt:90, per:'person', cat:'fun', est:true} },
+        { time:'12:00–13:00', dur:'約 1 小時', type:'meal', title:'🍽 午餐：密室附近（龍眼南路／萬象城一帶）', note:'Day 1 夜宵冇食到嘅可以補：雄記牛肉（濕炒粿條 4.4）、創弟牛肉丸（4.4）、海記豬血湯（4.3），詳見「美食」頁。', cost:{amt:60, per:'person', cat:'food', est:true} },
+        { time:'13:00–14:00', type:'drive', from:'hotelQJ', to:'qingao', km:60.9, osrm:50, est:60, note:'由萬象城／酒店一帶出發，經南澳大橋過島（橋上唔可以停車，過橋收費）' },
+        { time:'14:00–15:30', dur:'約 1.5 小時', type:'sight', place:'qingao', title:'青澳灣 — 沙灘慢慢行、坐低飲嘢', cost:{amt:0, per:'person', cat:'ticket'} },
+        { time:'15:30–16:15', dur:'約 45 分鐘', type:'sight', place:'tropicSquare', title:'北回歸線廣場 ＋ 自然之門（同一園區）', also:'gate', cost:{amt:0, per:'person', cat:'ticket'} },
+        { time:'16:15–16:35', type:'drive', from:'gate', to:'hotelNA', km:14.5, osrm:15, est:20 },
+        { time:'16:35', type:'hotel', place:'hotelNA', title:'入住 雅斯特國際酒店（汕頭南澳島店）— 休息', note:'泊車安排請向酒店確認。', cost:{amt:450, per:'room', cat:'hotel', est:true} },
+        { time:'18:30–20:00', type:'meal', title:'🍽 晚餐：後宅鎮海鮮（酒店附近）', note:'南澳冇餐廳上點評必吃榜；海鮮按斤計，落單前問清價錢同做法，或請酒店前台推介。', cost:{amt:120, per:'person', cat:'food', est:true} }
       ],
-      route:['hotelQJ','oldtown','smallpark','nanaoBridge','csw','hhsLine','yunao','qingao','gate','tropicSquare','zongbing','hotelNA'] },
+      route:['hotelQJ','oldtown','smallpark','nanaoBridge','qingao','tropicSquare','gate','hotelNA'] },
 
-    D3: { n:3, date:'2026-12-26', label:'12/26（六）', color:'#b5473a', area:'汕頭 → 潮州 → 揭陽',
-      title:'Day 3 · 龍泉岩 → 潮州古城 → 入住揭陽（自駕，行李放車尾）', summary:'自駕：07:45 由南澳出發過橋，經龍泉岩入潮州；睇完韓文公祠就將車泊喺西湖一帶，下晝全程步行古城，最後喺同一個停車場開車去揭陽。行李一直放車尾。',
-      note:'<b>✎ 路線優化：</b>①龍泉岩其實喺<b>汕頭</b>（金平區汕大附近），正好喺去潮州路上，保留第一站。②青龍古廟喺古城南面，由汕頭入潮州最先經過 → 調到潮州第一站。③韓文公祠同廣濟橋東岸只隔 300 m：自駕唔可以「東岸落車、西岸上車」，所以睇完韓文公祠就揸車過江，<b>泊喺西湖一帶</b>，再步行去廣濟橋（由西岸行出去再行返）、牌坊街、開元寺、古城，最後喺西湖取車。原順序要喺韓江兩岸來回兜（廣濟橋 → 韓文公祠 → 南面青龍古廟 → 返古城）。<br><b>潮州 → 揭陽交通：</b>自駕直達（約 32 km、40 分鐘）；鐵路要先去潮汕站再轉，唔划算。',
+    D3: { n:3, date:'2026-12-26', label:'12/26（六）', color:'#b5473a', area:'南澳 → 潮州 → 揭陽',
+      title:'Day 3 · 長山尾燈塔 → 潮州古城（滷鵝、糖水、打冷）→ 揭陽按摩', summary:'09:00 先出發（瞓夠先走），順路停長山尾燈塔，之後直入潮州。車泊西湖一帶，全日步行古城：午餐食滷鵝、下晝食糖水、晚餐食打冷，夜晚揸車去揭陽入住，再去沖腳按摩。',
+      note:'<b>✂ 鬆動版：</b>刪咗龍泉岩（喺汕頭兜路，來回要多約 1 小時車）、青龍古廟、潮州西湖（只用嚟泊車）。潮州部分由 5 個鐘加到成日，中間有茶館同糖水位抖。<br><b>自駕安排：</b>韓文公祠喺韓江東岸，睇完先揸車過江泊西湖一帶，之後全程步行，食完打冷先返去取車。<br><b>食店資料：</b>滷鵝、糖水、打冷店唔喺點評必吃榜，資料來自遊記／網上文章 <span class="vb est">未核實</span>；部分文章有推廣性質，出發前喺點評睇最新評價同營業時間。',
       items:[
-        { time:'07:30–07:45', type:'car', place:'hotelNA', title:'🚙 退房，行李上車（自駕：南澳 → 汕頭 → 潮州 → 揭陽）', note:'早餐開餐時間請向酒店確認，可能要食快啲或外帶。行李放車尾、用遮物簾遮住。' },
-        { time:'07:45–08:50', type:'drive', from:'hotelNA', to:'longquan', km:51.4, osrm:43, est:65, note:'經南澳大橋返汕頭（過橋收費）' },
-        { time:'09:00–09:45', dur:'約 45 分鐘', type:'sight', place:'longquan', title:'① 龍泉岩寺廟群（汕頭）', note:'09:00 開門，08:50 到可稍等。', cost:{amt:0, per:'person', cat:'ticket', est:true} },
-        { time:'09:45–10:35', type:'drive', from:'longquan', to:'qinglong', km:35.3, osrm:36, est:50 },
-        { time:'10:35–11:05', dur:'約 30 分鐘', type:'sight', place:'qinglong', title:'④ 青龍古廟（調前）', cost:{amt:0, per:'person', cat:'ticket', est:true} },
-        { time:'11:05–11:15', type:'drive', from:'qinglong', to:'hanwengong', km:5.2, osrm:7, est:10 },
-        { time:'11:15–12:00', dur:'約 45 分鐘', type:'sight', place:'hanwengong', title:'③ 韓文公祠（需預約）', cost:{amt:0, per:'person', cat:'ticket'} },
-        { time:'12:00–12:15', type:'drive', from:'hanwengong', to:'westlake', km:5.1, osrm:7, est:15, note:'過韓江去西岸，泊西湖公園一帶停車場（下晝全程步行，停車場位置以高德為準）' },
-        { time:'12:15–12:35', type:'walk', title:'步行約 1.5 km 經古城去廣濟門（廣濟橋西岸橋頭）' },
-        { time:'12:35–13:30', dur:'約 55 分鐘', type:'sight', place:'guangji', title:'② 廣濟橋（由西岸行出去再行返）', cost:{amt:20, per:'person', cat:'ticket'} },
-        { time:'13:30–14:30', dur:'約 1 小時', type:'meal', place:'paifang', title:'⑥ 牌坊街 ＋ 🍽 午餐（潮州小食）', note:'午餐推介：有味道魚生・砂鍋粥（牌坊街店，點評必吃榜 4.8，可訂位）；飯後行牌坊街試鴨母捻、春餅。', cost:{amt:80, per:'person', cat:'food', est:true} },
-        { time:'14:30–15:15', dur:'約 45 分鐘', type:'sight', place:'kaiyuan', title:'⑤ 開元寺', cost:{amt:0, per:'person', cat:'ticket'} },
-        { time:'15:15–16:30', dur:'約 1 小時 15 分', type:'sight', place:'gucheng', title:'⑦ 潮州古城（甲第巷、義興甲巷）— 步行', note:'可喺古城工夫茶館坐低歇腳。', cost:{amt:40, per:'person', cat:'food', est:true} },
-        { time:'16:30–16:40', type:'walk', title:'步行返西湖（約 1 km）' },
-        { time:'16:40–17:25', dur:'約 45 分鐘', type:'sight', place:'westlake', title:'⑧ 潮州西湖（黃昏），之後返停車場取車', cost:{amt:0, per:'person', cat:'ticket'} },
-        { time:'17:25–18:05', type:'drive', from:'westlake', to:'hotelJY', km:31.9, osrm:27, est:40, note:'自駕去揭陽酒店' },
-        { time:'18:05', type:'car', place:'hotelJY', title:'🅿 泊車：揭陽亞朵免費泊車過夜' },
-        { time:'18:05', type:'hotel', place:'hotelJY', title:'⑨ 入住 揭陽榕城揭陽樓亞朵酒店', cost:{amt:400, per:'room', cat:'hotel', est:true} },
-        { time:'19:00–20:30', type:'meal', title:'🍽 晚餐：鴻興家・非遺潮汕菜（臨江北路店，點評必吃榜 4.4）', note:'後備：東興生魚粥（必吃榜 4.7）。', cost:{amt:80, per:'person', cat:'food', est:true} }
+        { time:'08:00–09:00', type:'car', place:'hotelNA', title:'🚙 酒店早餐、退房，行李上車', note:'早餐開餐時間請向酒店確認。' },
+        { time:'09:00–09:15', type:'drive', from:'hotelNA', to:'csw', km:11.6, osrm:11, est:15 },
+        { time:'09:15–09:45', dur:'約 30 分鐘', type:'sight', place:'csw', title:'長山尾燈塔 ＋ 南澳大橋景觀（順路影相）', also:'nanaoBridge', cost:{amt:0, per:'person', cat:'ticket'} },
+        { time:'09:45–10:45', type:'drive', from:'csw', to:'hanwengong', km:53.6, osrm:45, est:60, note:'經南澳大橋返大陸（過橋收費）直入潮州' },
+        { time:'10:45–11:30', dur:'約 45 分鐘', type:'sight', place:'hanwengong', title:'韓文公祠（需預約）', cost:{amt:0, per:'person', cat:'ticket'} },
+        { time:'11:30–11:45', type:'drive', from:'hanwengong', to:'westlake', km:5.1, osrm:7, est:15, note:'過韓江去西岸，泊西湖公園一帶停車場（之後全程步行，停車場位置以高德為準）' },
+        { time:'12:00–13:00', dur:'約 1 小時', type:'meal', title:'🍽 午餐：潮州滷鵝（滷味）', note:'4 個人可以叫鵝肉拼盤（鵝肉、鵝肝、鵝頭、鵝腸）配白粥。',
+          picks:[
+            { n:'溪口劉卜鵝肉店', d:'上西平路與開元路交界 · 離古城約 500 m · 甜口滷鵝，飯市排隊（攜程遊記）', kw:'溪口刘卜鹅肉店', c:'潮州', dp:221 },
+            { n:'祥木記（古城鎮海樓店）', d:'1935 年老字號 · 招牌滷水粉鵝肝（網上文章，有推廣性質）', kw:'祥木记 卤鹅', c:'潮州', dp:221 },
+            { n:'鹵鵝先生（古城店）', d:'攜程點評 5 分 · 堂食免費單叢茶同白粥', kw:'卤鹅先生 古城店', c:'潮州', dp:221 },
+            { n:'後備：有味道魚生·砂鍋粥（牌坊街店）', d:'點評必吃榜 4.8 · 唔食滷鵝就揀呢間', kw:'有味道鱼生 牌坊街', c:'潮州', dp:221, ok:true }
+          ], cost:{amt:80, per:'person', cat:'food', est:true} },
+        { time:'13:00–13:15', type:'walk', title:'步行去廣濟門（廣濟橋西岸橋頭）' },
+        { time:'13:15–14:15', dur:'約 1 小時', type:'sight', place:'guangji', title:'廣濟橋（由西岸行出去再行返）', cost:{amt:20, per:'person', cat:'ticket'} },
+        { time:'14:15–15:15', dur:'約 1 小時', type:'meal', place:'paifang', title:'牌坊街慢慢行 ＋ 🍧 潮州糖水',
+          picks:[
+            { n:'胡榮泉鴨母捻（牌坊街店）', d:'太平路 136–144 號 · 1911 年創辦 · 鴨母捻（綠豆、紅豆沙、芋泥、芝麻餡）', kw:'胡荣泉 鸭母捻', c:'潮州', dp:221 },
+            { n:'開元厝甜頭甜品', d:'開元路小巷 · 街坊潮式甜湯，可能要排隊（網上攻略）', kw:'开元厝甜头甜品', c:'潮州', dp:221 },
+            { n:'李記甜湯', d:'開元路 36 號 · 可加番薯、芋頭（網上攻略）', kw:'李记甜汤 开元路', c:'潮州', dp:221 }
+          ], cost:{amt:25, per:'person', cat:'food', est:true} },
+        { time:'15:15–16:00', dur:'約 45 分鐘', type:'sight', place:'kaiyuan', title:'開元寺', cost:{amt:0, per:'person', cat:'ticket'} },
+        { time:'16:00–17:30', dur:'約 1.5 小時', type:'sight', place:'gucheng', title:'潮州古城（甲第巷、義興甲巷）＋ 工夫茶館坐低抖', note:'唔使趕，行攰就入茶館飲單叢。', cost:{amt:40, per:'person', cat:'food', est:true} },
+        { time:'17:45–19:15', dur:'約 1.5 小時', type:'meal', title:'🍽 晚餐：潮州打冷（白粥 ＋ 滷水、雜鹹、凍魚、生醃）',
+          note:'潮汕人叫「夜糜」：冷盤自己揀、熱菜現點，配白粥或砂鍋粥。',
+          picks:[
+            { n:'楓春（白粥／潮菜大排檔）', d:'網上文章稱開咗 28 年，牌坊街附近有分店；上百款雜鹹、生醃、滷味任揀（文章有推廣性質）', kw:'枫春 白粥', c:'潮州', dp:221 },
+            { n:'阿群砂鍋粥', d:'義安路支巷 · 本地人排隊 · 田雞粥、黃鱔粥 · 人均約 ¥40–60（網上文章）', kw:'阿群砂锅粥', c:'潮州', dp:221 },
+            { n:'阿榮砂鍋粥（永護路店）', d:'古城 30 年老店 · 22:00 後只有永護路店營業（網上文章）', kw:'阿荣砂锅粥 永护路', c:'潮州', dp:221 }
+          ], cost:{amt:80, per:'person', cat:'food', est:true} },
+        { time:'19:15–19:30', type:'walk', title:'步行返西湖停車場取車' },
+        { time:'19:30–20:10', type:'drive', from:'westlake', to:'hotelJY', km:31.9, osrm:27, est:40, note:'自駕去揭陽酒店' },
+        { time:'20:10', type:'car', place:'hotelJY', title:'🅿 泊車：揭陽亞朵免費泊車過夜' },
+        { time:'20:10', type:'hotel', place:'hotelJY', title:'入住 揭陽榕城揭陽樓亞朵酒店', cost:{amt:400, per:'room', cat:'hotel', est:true} },
+        { time:'20:45–22:15', dur:'約 1.5 小時', type:'sight', title:'💆 沖腳／按摩（足療 70–90 分鐘）', note:'行咗成日，返酒店放低行李先去。用滴滴或的士去返（唔使再揸車）。4 人同房要預約；入門前問清套餐價錢同時長。',
+          picks:[
+            { n:'心一足道（揭陽店）', d:'仁義路西、建陽路南 源豐綜合樓 · 高德 4.4（搜尋結果）', kw:'心一足道 揭阳店', c:'揭阳', dp:222 },
+            { n:'金手藝足道（富榕大廈店）', d:'建陽路與馬牙路交界 · 高德 4.4（搜尋結果）', kw:'金手艺足道 富榕大厦', c:'揭阳', dp:222 },
+            { n:'印象足道', d:'東山片區 · 高德 4.4（搜尋結果）', kw:'印象足道 揭阳', c:'揭阳', dp:222 }
+          ], cost:{amt:160, per:'person', cat:'fun', est:true} }
       ],
-      route:['hotelNA','nanaoBridge','longquan','qinglong','hanwengong','westlake','guangji','paifang','kaiyuan','gucheng','westlake','hotelJY'] },
+      route:['hotelNA','csw','nanaoBridge','hanwengong','westlake','guangji','paifang','kaiyuan','gucheng','westlake','hotelJY'] },
 
     D4: { n:4, date:'2026-12-27', label:'12/27（日）', color:'#7a5aa6', area:'揭陽 → 香港',
-      title:'Day 4 · 揭陽古城 → 潮汕站 → 香港', summary:'09:15 連行李自駕出發，行揭陽古城、學宮（11:30 午休前）、進賢門，食完午餐入油，直接揸去潮汕站還車（唔使返酒店攞行李），搭 G925 15:55 返西九龍（18:17 到）。',
+      title:'Day 4 · 揭陽古城 → 潮汕站 → 香港', summary:'瞓遲少少，09:15 連行李自駕出發，行揭陽古城、學宮（11:30 午休前）、進賢門，食完午餐入油，直接揸去潮汕站還車（唔使返酒店攞行李），搭 G925 15:55 返西九龍（18:17 到）。',
       note:'<b>✎ 回程車站：</b>12306 查詢（2026-11-24）顯示<b>揭陽南站冇直達西九龍列車</b>；潮汕站每日 6 班直達。進賢門 → 潮汕站約 32 km、約 40 分鐘；14:10 到站還車，比開車早 1 小時 45 分（週日下午可能塞車 + 4 人實名安檢）。',
       items:[
         { time:'08:00–09:00', type:'meal', title:'🍽 酒店早餐', note:'住客評價早餐豐富（攜程）。' },
@@ -309,7 +334,7 @@ window.TRIP = {
         { id:'hotelNA', zh:'雅斯特国际酒店(汕头南澳岛店)', en:"Yaste International Hotel Nan'ao Island", lat:23.41023, lng:117.03227,
           rating:'攜程 4.5／5（58 條點評）· 南澳島高檔酒店榜 No.9', ratingV:'ok', opened:'2026 年開業', price:[350,600], room:'有海景房、套房、連通房、親子房（面積未核實）',
           facilities:'自助早餐、智能客控、兒童樂園、棋牌室、機器人服務、觀景露台；<b>泊車未列明</b>',
-          dist:{'總兵府':'14.8 km（約 20 分鐘）','長山尾燈塔（南澳大橋）':'約 10 km','龍泉岩（Day 3 第一站）':'51.4 km（約 65 分鐘）','潮州青龍古廟':'66.5 km（約 1 小時 15 分）'},
+          dist:{'北回歸線廣場（Day 2）':'14.5 km（OSRM 約 15 分鐘）','長山尾燈塔（Day 3 第一站）':'11.6 km（OSRM 約 11 分鐘）','潮州韓文公祠（經長山尾）':'約 65 km（約 1 小時 15 分）'},
           pros:['新酒店，有海景房','住縣城，晚餐選擇多','Day 2 唔使趕住離島'],
           cons:['點評數少，評分未穩定','Day 3 去潮州要多約 1 小時車程','12/25 聖誕夜（週五）房價可能偏高'],
           cancel:'按房價方案而定', links:[['攜程','https://m.ctrip.com/html5/hotel/hoteldetail/135797548.html']] }
@@ -349,8 +374,8 @@ window.TRIP = {
     steps: [
       { when:'12/24（四）21:03', what:'未取車', where:'汕頭站 → 全季酒店', note:'夜晚門店未必營業，第一晚用滴滴／的士。' },
       { when:'12/25（五）07:45–08:00', what:'🚙 送車上門（租期開始）', where:'全季酒店（汕頭龍眼南路萬象城店）', note:'驗車影相；確認保險、押金、異地還車。退房，行李上車。' },
-      { when:'12/25（五）', what:'自駕：汕頭老城 → 南澳島', where:'約 102 km', note:'晚上住南澳雅斯特（泊車請向酒店確認）。' },
-      { when:'12/26（六）', what:'自駕：南澳 → 汕頭 → 潮州 → 揭陽', where:'約 130 km', note:'潮州泊西湖一帶；晚上泊揭陽亞朵（免費）。' },
+      { when:'12/25（五）', what:'自駕：汕頭老城 → 密室 → 南澳島', where:'約 86 km', note:'上午泊小公園及密室商場；晚上住南澳雅斯特（泊車請向酒店確認）。' },
+      { when:'12/26（六）', what:'自駕：南澳 → 潮州 → 揭陽', where:'約 100 km', note:'潮州泊西湖一帶；晚上泊揭陽亞朵（免費），去按摩用滴滴。' },
       { when:'12/27（日）09:15', what:'連行李出發', where:'揭陽古城 → 潮汕站', note:'約 40 km；還車前入油。' },
       { when:'12/27（日）14:10–14:30', what:'🚙 還車（租期結束）', where:'潮汕站（異地還車）', note:'約 54.5 小時，多數按 3 日計。' }
     ],
@@ -359,7 +384,7 @@ window.TRIP = {
       ['基本保險 + 不計免賠 × 3 日', 150, 300],
       ['異地還車費（汕頭 → 潮汕站）', 100, 300],
       ['送車上門費（全季酒店）', 0, 100],
-      ['油費（約 270 km）', 150, 250],
+      ['油費（約 230 km）', 120, 220],
       ['過橋費 + 高速費', 120, 200],
       ['停車費', 60, 150]
     ],
@@ -393,13 +418,21 @@ window.TRIP = {
     { day:'Day 2 早', name:'侗平肠粉（同平路店）', area:'汕頭 小公園商圈', dish:'全家福腸粉（137 人推薦）', dp:'4.3 · 連續 2 年上榜', cost:'¥15／人', v:'ok', city:207 },
     { day:'Day 2 早（如已開門）', name:'松英汫洲蚝仔粥（小公园店）', area:'汕頭 小公園商圈', dish:'招牌蠔仔烙、蠔仔粥（54 人推薦）', dp:'4.4 · 2026 新上榜', cost:'¥65／人', v:'ok', city:207 },
     { day:'Day 2 早', place:'laomagong', name:'老媽宮粽球', area:'汕頭 小公園', dish:'鹹甜粽球（老字號，唔喺必吃榜）', dp:'—', cost:'約 ¥12／隻（遊記）', v:'est' },
-    { day:'Day 2 午', place:'yunao', name:'雲澳漁港海鮮檔', area:'南澳 雲澳鎮', dish:'南澳海鮮（按斤計）', dp:'南澳冇店上必吃榜', cost:'人均約 ¥100–150（估算）', v:'est', note:'落單前問清價錢、斤兩同做法。' },
+    { day:'Day 2 午', name:'雄记牛肉 ／ 创弟牛肉丸 ／ 海记猪血汤', area:'汕頭 龍眼南路（密室附近）', dish:'Day 1 夜宵冇食到嘅補返', dp:'見上面 Day 1', cost:'¥25–79／人', v:'ok', search:'龙眼南路 美食' },
     { day:'Day 2 晚', name:'後宅鎮海鮮小炒', area:'南澳 後宅鎮（酒店附近）', dish:'清蒸／薑蔥海鮮、紫菜、海膽炒飯', dp:'南澳冇店上必吃榜', cost:'人均約 ¥90–150（估算）', v:'est', note:'可請酒店前台推介；喺點評搜「南澳 後宅 海鮮」睇最新評價。', search:'后宅 海鲜' },
-    { day:'Day 3 午', name:'有味道鱼生•砂锅粥•潮州菜•生腌（牌坊街店）', area:'潮州 牌坊街城區', dish:'魚生（103 人推薦）、砂鍋粥、生醃', dp:'4.8 · 連續 2 年上榜', cost:'¥97／人', v:'ok', city:221, note:'就喺行程牌坊街，可以訂位（點評顯示「訂」）。' },
-    { day:'Day 3 午（小食）', place:'paifang', name:'牌坊街小食（如胡榮泉等老字號）', area:'潮州 太平路', dish:'鴨母捻、春餅、牛肉粿條（唔喺必吃榜）', dp:'—', cost:'人均約 ¥50–80（估算）', v:'est', search:'胡荣泉 潮州' },
-    { day:'Day 3 下晝（可選）', name:'西门鳝鱼粿条（新泰里店）', area:'潮州 新橋路／三利街（古城西面）', dish:'鱔魚炒粿條（65 人推薦）', dp:'4.1 · 連續 2 年上榜', cost:'¥36／人', v:'ok', city:221, note:'距西湖嘅實際距離未核實，出發前用高德睇。' },
-    { day:'Day 3 晚', name:'鸿兴家·非遗潮汕菜（临江北路店）', area:'揭陽 臨江北路（同酒店同一條路）', dish:'招牌鮑魚煲仔飯、非遺砂鍋粥（122 人推薦）', dp:'4.4 · 2026 新上榜', cost:'¥113／人', v:'ok', city:222 },
-    { day:'Day 3 晚（後備）', name:'东兴生鱼粥', area:'揭陽 望江北路', dish:'螃蟹粥、生魚粥（48 人推薦）', dp:'4.7 · 連續 2 年上榜', cost:'¥73／人', v:'ok', city:222 },
+    { day:'Day 3 午 · 滷鵝', name:'溪口刘卜鹅肉店', area:'潮州 上西平路／開元路口（古城約 500 m）', dish:'甜口滷鵝、鵝肉拼盤', dp:'— （攜程遊記：飯市排隊）', cost:'未有資料', v:'est', city:221 },
+    { day:'Day 3 午 · 滷鵝', name:'祥木记 卤鹅', area:'潮州 古城鎮海樓一帶', dish:'滷水粉鵝肝（1935 年老字號）', dp:'— （網上文章，有推廣性質）', cost:'未有資料', v:'est', city:221 },
+    { day:'Day 3 午 · 滷鵝', name:'卤鹅先生（古城店）', area:'潮州 古城', dish:'滷鵝配白粥，免費單叢茶', dp:'— （攜程點評 5 分）', cost:'未有資料', v:'est', city:221 },
+    { day:'Day 3 午（後備）', name:'有味道鱼生•砂锅粥•潮州菜•生腌（牌坊街店）', area:'潮州 牌坊街城區', dish:'魚生（103 人推薦）、砂鍋粥、生醃', dp:'4.8 · 連續 2 年上榜', cost:'¥97／人', v:'ok', city:221, note:'可以訂位（點評顯示「訂」）。' },
+    { day:'Day 3 下晝 · 糖水', name:'胡荣泉鸭母捻（牌坊街店）', area:'潮州 太平路 136–144 號', dish:'鴨母捻（綠豆／紅豆沙／芋泥／芝麻）、春餅', dp:'— （1911 年老字號，遊記推介）', cost:'約 ¥15–30／人（估算）', v:'est', city:221 },
+    { day:'Day 3 下晝 · 糖水', name:'开元厝甜头甜品', area:'潮州 開元路小巷', dish:'潮式甜湯', dp:'— （網上攻略：街坊店，要排隊）', cost:'未有資料', v:'est', city:221 },
+    { day:'Day 3 下晝 · 糖水', name:'李记甜汤', area:'潮州 開元路 36 號', dish:'甜湯加番薯、芋頭', dp:'— （網上攻略）', cost:'未有資料', v:'est', city:221 },
+    { day:'Day 3 晚 · 打冷', name:'枫春 白粥', area:'潮州（牌坊街附近有分店）', dish:'白粥打冷：上百款雜鹹、生醃、滷味自己揀', dp:'— （網上文章，有推廣性質）', cost:'未有資料', v:'est', city:221 },
+    { day:'Day 3 晚 · 打冷', name:'阿群砂锅粥', area:'潮州 義安路支巷', dish:'田雞粥、黃鱔粥', dp:'— （網上文章：本地人排隊）', cost:'約 ¥40–60／人（文章）', v:'est', city:221 },
+    { day:'Day 3 晚 · 打冷', name:'阿荣砂锅粥（永护路店）', area:'潮州 古城 永護路', dish:'砂鍋粥（22:00 後只有呢間開）', dp:'— （網上文章）', cost:'未有資料', v:'est', city:221 },
+    { day:'Day 3（可選）', name:'西门鳝鱼粿条（新泰里店）', area:'潮州 新橋路／三利街（古城西面）', dish:'鱔魚炒粿條（65 人推薦）', dp:'4.1 · 連續 2 年上榜', cost:'¥36／人', v:'ok', city:221, note:'距西湖嘅實際距離未核實，出發前用高德睇。' },
+    { day:'Day 4 早午（可選）', name:'鸿兴家·非遗潮汕菜（临江北路店）', area:'揭陽 臨江北路（同酒店同一條路）', dish:'招牌鮑魚煲仔飯、非遺砂鍋粥（122 人推薦）', dp:'4.4 · 2026 新上榜', cost:'¥113／人', v:'ok', city:222 },
+    { day:'Day 4（可選）', name:'东兴生鱼粥', area:'揭陽 望江北路', dish:'螃蟹粥、生魚粥（48 人推薦）', dp:'4.7 · 連續 2 年上榜', cost:'¥73／人', v:'ok', city:222 },
     { day:'Day 4 午', name:'新合兴牛肉火锅（榕城古城店）', area:'揭陽 榕城古城', dish:'吊龍牛肉火鍋（87 人推薦）', dp:'4.5 · 2026 新上榜', cost:'¥84／人', v:'ok', city:222, note:'就喺揭陽古城，啱行完學宮、進賢門食。' },
     { day:'Day 4 午（後備）', name:'卢记牛肉店（新翠苑店）', area:'揭陽 榕城區', dish:'吊龍牛肉拼匙仁（77 人推薦）', dp:'4.6 · 連續 2 年上榜', cost:'¥111／人', v:'ok', city:222 }
   ],
@@ -417,16 +450,18 @@ window.TRIP = {
     { key:'suv-rent', cat:'local', label:'SUV 租金 3 日（每日估算 ¥350）', amt:1050, per:'group', v:'est' },
     { key:'suv-ins', cat:'local', label:'保險 + 不計免賠 3 日', amt:210, per:'group', v:'est' },
     { key:'suv-oneway', cat:'local', label:'異地還車費（潮汕站）', amt:200, per:'group', v:'est' },
-    { key:'fuel', cat:'local', label:'油費（約 280 km）', amt:200, per:'group', v:'est' },
+    { key:'fuel', cat:'local', label:'油費（約 230 km）', amt:170, per:'group', v:'est' },
     { key:'toll', cat:'local', label:'南澳大橋過橋費 ×2（2015 年資料）', amt:96, per:'group', v:'est' },
     { key:'highway', cat:'local', label:'高速公路費', amt:50, per:'group', v:'est' },
     { key:'parking', cat:'local', label:'停車費', amt:100, per:'group', v:'est' },
-    { key:'taxi', cat:'local', label:'滴滴／的士（Day 1：汕頭站 → 酒店）', amt:60, per:'group', v:'est' },
+    { key:'taxi', cat:'local', label:'滴滴／的士（Day 1 汕頭站 → 酒店；Day 3 揭陽去返按摩）', amt:100, per:'group', v:'est' },
     { key:'food', cat:'food', label:'餐飲（每人每日約 ¥300 × 4 日）', amt:1200, per:'person', v:'est' },
-    { key:'tickets', cat:'ticket', label:'景點門票（廣濟橋 ¥20、總兵府、宋井等）', amt:50, per:'person', v:'est' },
+    { key:'tickets', cat:'ticket', label:'景點門票（廣濟橋 ¥20 等）', amt:30, per:'person', v:'est' },
+    { key:'escape', cat:'fun', label:'密室逃脫 1 場（Day 2）', amt:90, per:'person', v:'est' },
+    { key:'massage', cat:'fun', label:'沖腳／按摩 70–90 分鐘（Day 3）', amt:160, per:'person', v:'est' },
     { key:'misc', cat:'misc', label:'手信、茶葉、雜費', amt:300, per:'person', v:'est' }
   ],
-  budgetCats: { rail:'🚄 高鐵', hotel:'🏨 住宿', local:'🚗 本地交通', food:'🍽 餐飲', ticket:'🎫 門票', misc:'🛍 雜項' },
+  budgetCats: { rail:'🚄 高鐵', hotel:'🏨 住宿', local:'🚗 本地交通', food:'🍽 餐飲', ticket:'🎫 門票', fun:'🎭 密室·按摩', misc:'🛍 雜項' },
 
   weather: [
     { day:'Day 1', date:'2026-12-24', loc:'汕頭', lat:23.36, lon:116.71 },
@@ -444,11 +479,21 @@ window.TRIP = {
     '<b>預約：</b>韓文公祠要提前預約（旅遊平台資料）；揭陽學宮中午有午休、週一閉館。',
     '<b>支付：</b>AlipayHK／WeChat Pay 為主，帶少量人民幣現金。',
     '<b>網絡：</b>內地上 Google／WhatsApp 要用香港 SIM 漫遊或 eSIM；地圖建議用高德（本頁導航掣已用 WGS-84 座標轉換）。',
+    '<b>密室／按摩：</b>密室要喺點評／美團預約 4 人場次；按摩入門前問清套餐、時長同價錢，正規足療店一般有價目表。兩樣都係估算價。',
     '<b>手信入境：</b>肉類製品（包括牛肉丸）帶返香港有限制，出發前查清海關／漁護署規定。'
   ],
 
   sources: [
     ['大眾點評 必吃榜 2026（汕頭／潮州／揭陽，2026-11-24 查詢）','https://m.dianping.com/an/ranklist/musteat2023/page/index?notitlebar=1&ranktype=3&cityid=207'],
+    ['360 地圖：Again·密室逃脫館（汕頭）','https://m.map.360.cn/m/search/detail/pid=0b5c6d06193ed3bf'],
+    ['微博：汕頭密室逃脫推介（神盾局、J先生等）','https://weibo.com/2/detail/comos:niwhnxy1599471'],
+    ['高德地圖：榕城區足浴店榜單（搜尋結果引用，現頁面暫無數據）','https://ranks.amap.com/ranking/%E8%B6%B3%E6%B5%B4%E5%BA%97/445202/%E5%AE%B6%E5%BA%AD'],
+    ['攜程遊記：潮州溪口劉卜滷鵝','https://gs.ctrip.com/html5/you/travels/467/4041115.html'],
+    ['攜程美食：鹵鵝先生（古城店）','https://gs.ctrip.com/html5/you/foods/fooddetail/2/62849847.html'],
+    ['搜狐：祥木記滷鵝','https://www.sohu.com/a/1022194501_122742210'],
+    ['攜程遊記：潮州本地人食乜（糖水）','https://gs.ctrip.com/html5/you/travels/467/4066063.html'],
+    ['搜狐：潮州古城必吃清單（阿榮、楓春等）','https://www.sohu.com/a/999621516_122653498'],
+    ['搜狐：阿群砂鍋粥','https://www.sohu.com/a/1023856489_122749824'],
     ['12306 時刻／票價（queryG、queryTicketPrice，2026-11-24 查詢）','https://kyfw.12306.cn/otn/leftTicket/init'],
     ['港鐵高鐵：於12306購票（預售期 15 天）','https://www.highspeed.mtr.com.hk/tc/latest-news/ticketing-via-12306-purchase-ticket.html'],
     ['12306《廣深港高速鐵路跨境旅客運輸組織規則》','https://mobile.12306.cn/otsmobile/h5/otsbussiness/info/crossBorderPassenger.html'],

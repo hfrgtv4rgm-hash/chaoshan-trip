@@ -221,6 +221,9 @@
       if (meta.length) sub += '<div class="sub-note">' + meta.join('　') + ' ' + (VB[p.v] || '') + '</div>';
     }
     if (it.note) sub += '<div class="sub-note">' + it.note + '</div>';
+    if (it.picks) sub += '<ul class="picks">' + it.picks.map(k => '<li><b>' + esc(k.n) + '</b> ' + (k.ok ? '<span class="vb ok">點評必吃榜</span>' : '<span class="vb est">未核實</span>') + '<div class="small">' + esc(k.d) + '</div><div class="links">' +
+      '<a class="amap-btn" target="_blank" rel="noopener" href="' + amapSearch(k.kw, k.c) + '">高德搜尋</a>' +
+      (k.dp ? '<a class="link-btn" target="_blank" rel="noopener" href="https://www.dianping.com/search/keyword/' + k.dp + '/0_' + encodeURIComponent(k.kw) + '">點評 ↗</a>' : '') + '</div></li>').join('') + '</ul>';
     const ph = p ? photoOf(p) : null;
     act = '<div class="act-wrap">' + (ph ? imgTag(ph, 'act-thumb', p.zh) : '') + '<div>' + pin + hotelIcon + esc(title) +
       (p && p.approx ? '<span class="vb est">位置約略</span>' : '') +

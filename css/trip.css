@@ -227,3 +227,9 @@ table.data .small{font-size:11.5px; color:var(--ink-soft);}
 table.data tr.rec td,table.itin tr.rail td,table.itin tr.flight td{background:#f4ebdf;}
 table.itin tr.car td{background:#f7efe3;}
 .mbtn.active{background:var(--forest-deep); border-color:var(--forest-deep);}
+
+/* 行程內推介店（密室、按摩、糖水、打冷、滷味） */
+.picks{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:6px}
+.picks li{background:rgba(160,120,80,.08);border-left:3px solid var(--accent,#b08050);border-radius:6px;padding:6px 8px;font-size:13px}
+.picks .small{font-size:12px;color:var(--ink-soft);margin:2px 0 4px}
+.picks .links{margin-top:2px}
